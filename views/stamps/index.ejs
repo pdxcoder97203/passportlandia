@@ -1,0 +1,19 @@
+<% include ../partials/header %> 
+
+<h1>This is the stamps page.</h1>
+
+<a href='/stamps/new'>Add new stamp</a>
+<br>
+
+<!-- Show thumbnail of stamp and name of stamp -->
+<% stamps.forEach((stamp) => { %>
+   <img src='<%= stamp.image %>'>
+    <h2><%= stamp.name %></h2>
+
+    <!-- Link to more information about a stamp -->
+    <a href='/stamps/<%= stamp._id %>'>More information</a>
+    <br>
+<% }); %>
+
+
+<% include ../partials/footer %> 

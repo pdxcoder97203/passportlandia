@@ -1,0 +1,10 @@
+<% include ../partials/header %> 
+
+<img src='<%= stamp.image %>' >
+<h4> <%= stamp.name %> </h4>
+<p> <%= stamp.neighborhood %> </p>
+<p> <%= stamp.description %> </p>
+
+<p>Submitted by <%= stamp.author.username %> </p>
+
+<% include ../partials/footer %> 
