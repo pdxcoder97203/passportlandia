@@ -19,6 +19,8 @@ router.post('/stamps', loginCheck, (req, res) => {
     var name = req.body.name;
     var hood = req.body.hood;
     var image = req.body.image;
+    var question = req.body.question;
+    var answer = req.body.answer;
     var description = req.body.description;
     var author = {
         id: req.user._id,
@@ -29,6 +31,8 @@ router.post('/stamps', loginCheck, (req, res) => {
         neighborhood: hood,
         image: image,
         description: description,
+        question: question,
+        answer: answer,
         author: author,
         reqStamp: true,
     };

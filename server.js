@@ -48,6 +48,8 @@ var stampRoutes = require('./routes/stamps');
 app.use(stampRoutes);
 var commentRoutes = require('./routes/comments');
 app.use(commentRoutes);
+var userRoutes = require('./routes/users');
+app.use(userRoutes);
 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;

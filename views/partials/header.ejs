@@ -25,6 +25,9 @@
           <% } else { %>
           <li class="nav-item">Logged in as <%= currentUser.username %></li>
           <li class="nav-item">
+            <a class="nav-link" href="/users/<%= currentUser._id %>">My Passport</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/logout">Logout</a>
           </li>
            <% } %>

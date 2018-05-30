@@ -20,6 +20,14 @@
     <button>Add Comment</button>
 </form>
 
+<% if (currentUser) { %>
+<form action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
+    <input type='text' name='submission' placeholder="What is the answer?">
+    <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
+    <button>Complete Stamp</button>
+</form>
+<% } %>
+
 <% stamp.comments.forEach((comment) => { %>
   <%= comment.author.username %>
   <%= comment.text %>

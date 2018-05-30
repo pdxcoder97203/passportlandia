@@ -7,11 +7,11 @@ var userSchema = new mongoose.Schema({
     email: String,
     level: String,
     completedHoods: String,
-    nStamps: [String],
-    neReqStamps: [String],
-    nwReqStamps: [String],
-    seReqStamps: [String],
-    swReqStamps: [String]
+    nstamps: [String],
+    neStamps: [String],
+    nwStamps: [String],
+    seStamps: [String],
+    swStamps: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);
