@@ -60,6 +60,38 @@ router.get('/stamps/:id', (req, res) => {
    });
 });
 
+// UI for editing a stamp
+router.get('/stamps/:id/edit', verifyStampOwner, (req, res) => {
+    Stamp.findById(req.params.id, (err, foundStamp) => {
+                   res.render('stamps/edit', {
+                            stamp: foundStamp,
+                            title: `Edit ${foundStamp.name}`
+                        });
+                   });
+});
+
+// Put route for editing a stamp
+router.put('/stamps/:id', verifyStampOwner, (req, res) => {
+   Stamp.findByIdAndUpdate(req.params.id, req.body.stamp, function(err, updatedStamp) {
+       if (err) {
+           res.redirect('/stamps');
+       } else {
+           res.redirect('/stamps/' + req.params.id);
+       };
+   });
+});
+
+// Destroy route
+router.delete('/stamps/:id', verifyStampOwner, (req, res) => {
+   Stamp.findByIdAndRemove(req.params.id, function(err) {
+      if (err) {
+          res.redirect('/stamps');
+      } else {
+          res.redirect('/stamps');
+      }
+   });
+});
+
 function verifyStampOwner(req, res, next) {
   if(req.isAuthenticated()) {
     Stamp.findById(req.params.id, function(err, foundStamp) {

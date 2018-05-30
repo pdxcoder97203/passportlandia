@@ -1,0 +1,13 @@
+<% include ../partials/header %> 
+
+<h1>Edit <%= stamp.name %> </h1>
+
+<form action="/stamps/<%= stamp._id %>?_method=PUT" method='POST'>
+    <input type='text' name='stamp[name]' value='<%= stamp.name %>'>
+    <input type='text' name='stamp[hood]' value='<%= stamp.neighborhood %>'>
+    <input type='text' name='stamp[image]' value='<%= stamp.image %>'>
+    <input type='text' name='stamp[description]' value='<%= stamp.description %>'>
+    <button>Submit</button>
+</form>
+
+<% include ../partials/footer %> 

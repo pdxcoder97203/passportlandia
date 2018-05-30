@@ -6,6 +6,8 @@ var stampSchema = new mongoose.Schema({
     image: String,
     description: String,
     commentCount: Number,
+    question: String,
+    answer: String,
     reqStamp: Boolean,
     author: {
         id: {

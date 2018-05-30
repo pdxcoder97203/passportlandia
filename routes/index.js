@@ -17,6 +17,7 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res) => {
    var newUser = new User({
         username: req.body.username,
+        email: req.body.email,
         level: 'Fanny Packer'
    });
     User.register(newUser, req.body.password, function(err, user){
