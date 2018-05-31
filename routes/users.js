@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Stamp = require('../models/stamp');
 var User = require('../models/user');
+var _ = require('underscore');
 
 // Show details of a particular user
 router.get('/users/:id', verifyUser, (req, res) => {
@@ -49,17 +50,20 @@ router.post('/users/:id/:stamp_id', verifyUser, (req, res) => {
     });
     
    User.findById(req.params.id, function(err, user) {
-      if (err) {
-          console.log(err);
-          res.redirect('/stamps');
-      } else if (submission === answer) {
+            if (err) {
+                res.redirect('back');
+            } else {
             user[neighborhood].push(completedStamp);
             user.save();
+                
+            // Check to see if level should be adjusted
+            if (_.contains(user.neStamps, '5b10611308102d2584ff313b') && !user.neStampsDone && (user.neStamps.length >= 2)) {
+                user.level++;
+                user.neStampsDone = true;
+            };
+                
             res.redirect('/users/' + user._id);
-             } else {
-                 console.log('That is not the correct answer!');
-                 res.redirect('/users/' + user._id);
-             }
+             } 
           });
 });
 // End of route to add a completed stamp to a user's passport

@@ -5,13 +5,17 @@ var userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    level: String,
-    completedHoods: String,
-    nstamps: [String],
+    level: Number,
+    nStamps: [String],
+    nStampsDone: Boolean,
     neStamps: [String],
+    neStampsDone: Boolean,
     nwStamps: [String],
+    nwStampsDone: Boolean,
     seStamps: [String],
-    swStamps: [String]
+    seStampsDone: Boolean,
+    swStamps: [String],
+    swStampsDone: Boolean
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -15,12 +15,16 @@
     </form>
 <% } %>
 
+<% if (currentUser) { %>
 <form action='/stamps/<%= stamp._id %>/comments' method="POST">
     <input type='text' name='comment[text]' placeholder="Add a comment">
     <button>Add Comment</button>
 </form>
+<% } %>
 
-<% if (currentUser) { %>
+<% if (currentUser && (currentUser.nStamps.includes(stamp._id.toString()) || currentUser.neStamps.includes(stamp._id.toString()) || currentUser.nwStamps.includes(stamp._id.toString()) || currentUser.seStamps.includes(stamp._id.toString()) || currentUser.swStamps.includes(stamp._id.toString()))) { %>
+<p>You have already completed this stamp!</p>
+<% } else if (currentUser) { %>
 <form action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
     <input type='text' name='submission' placeholder="What is the answer?">
     <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
@@ -41,5 +45,7 @@
 <% } %>
 
 <% }); %>
+
+
 
 <% include ../partials/footer %> 

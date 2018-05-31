@@ -3,6 +3,7 @@ var router = express.Router();
 var Stamp = require('../models/stamp');
 var Comment = require('../models/comment');
 
+
 // Stamps index
 router.get('/stamps', (req, res) => {
     Stamp.find({}, (err, allStamps) => {

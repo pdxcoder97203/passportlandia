@@ -18,7 +18,12 @@ router.post('/signup', (req, res) => {
    var newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        level: 'Fanny Packer'
+        level: 0,
+        nStampsDone: false,
+        neStampsDone: false,
+        nwStampsDone: false,
+        seStampsDone: false,
+        swStampsDone: false
    });
     User.register(newUser, req.body.password, function(err, user){
        if (err) {
