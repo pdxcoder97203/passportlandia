@@ -2,12 +2,16 @@
 
 <p>Hello, you are <%= currentUser.username %></p>
 
-<%if (currentUser.level === 0) {%> 
+<%if (currentUser.level === 0) {%>
     <p>Your current level is Fanny Pack</p>
 <%} else if (currentUser.level === 1) {%> 
     <p>Your current level is Fanny Pack and Chain</p>
 <%} else {%> 
     <p>Your code is not working bro</p>
 <%}%> 
+
+<% currentUser.swStamps.forEach((stamp) => { %>
+   <a href='../stamps/<%= stamp %>'><%= stamp %></a>
+<% }); %>
 
 <% include ../partials/footer %> 

@@ -6,7 +6,8 @@ var Comment = require('../models/comment');
 
 // Stamps index
 router.get('/stamps', (req, res) => {
-    Stamp.find({}, (err, allStamps) => {
+    var hood = req.body.hood;
+    Stamp.find({approved: true, neighborhood: ()}, (err, allStamps) => {
         if (err) {
             console.log(err);
         } else {
@@ -36,6 +37,7 @@ router.post('/stamps', loginCheck, (req, res) => {
         answer: answer,
         author: author,
         reqStamp: true,
+        approved: true
     };
     Stamp.create(newStamp, (err, newlyCreated) => {
        if (err) {
@@ -55,12 +57,16 @@ router.get('/stamps/new', loginCheck, (req, res) => {
 router.get('/stamps/:id', (req, res) => {
    Stamp.findById(req.params.id).populate('comments').exec(function(err, foundStamp) {
       if (err) {
-          console.log(err);
+          res.redirect('back');
       } else {
+          if (foundStamp.approved === true) {
           res.render('stamps/show', {
               title: foundStamp.name,
               stamp: foundStamp
           })
+        } else {
+            res.send('Your stamp is not approved!');
+        }
       }
    });
 });

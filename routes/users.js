@@ -24,19 +24,19 @@ router.post('/users/:id/:stamp_id', verifyUser, (req, res) => {
     var submission = req.body.submission;
     var neighborhood = req.body.neighborhood;
         switch (neighborhood) {
-                case 'n':
+                case 'N':
                     neighborhood = 'nStamps';
                     break;
-                case 'nw': 
+                case 'NW': 
                     neighborhood = 'nwStamps';
                     break;
-                case 'ne':
+                case 'NE':
                     neighborhood = 'neStamps';
                     break;
-                case 'sw':
+                case 'SW':
                     neighborhood = 'swStamps';
                     break;
-                case 'se': 
+                case 'SE': 
                     neighborhood = 'seStamps';
                     break;
                 default:

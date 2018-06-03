@@ -4,7 +4,14 @@
 
 <form action='/stamps' method='POST'>
     <input type='text' name='name' placeholder='Name of Stamp'>
-    <input type='text' name='hood' placeholder='Neighborhood'>
+    <label for='hood'>Neighborhood</label>
+    <select name='hood'>
+        <option selected value='N'>North (N)</option>
+        <option value='NW'>Northwest (NW)</option>
+        <option value='NE'>Northeast (NE)</option>
+        <option value='SW'>Southwest (SW)</option>
+        <option value='SE'>Southeast (SE)</option>
+    </select>
     <input type='text' name='image' placeholder='Image'>
     <input type='text' name='description' placeholder='Description'>
     <input type='text' name='question' placeholder='Question'>

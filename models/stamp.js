@@ -9,6 +9,7 @@ var stampSchema = new mongoose.Schema({
     question: String,
     answer: String,
     reqStamp: Boolean,
+    approved: Boolean,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

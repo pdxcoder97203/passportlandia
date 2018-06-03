@@ -1,12 +1,12 @@
 <% include partials/header %>
 
-<h1>Sign up Page</h1>
-
-<form action='/signup' method='POST'>
-    <input type='text' name='username' placeholder='name' required>
-    <input type='email' name='email' placeholder='email' required>
-    <input type='text' name='password' placeholder='password' required>
-    <button>Sign up</button>
-</form>
+<div class='signup form-group text-center'>
+    <form action='/signup' method='POST'>
+        <input class='form-control' type='text' name='username' placeholder='username' required>
+        <input class='form-control' type='email' name='email' placeholder='email' required>
+        <input class='form-control' type='text' name='password' placeholder='password' required>
+        <button class='btn btn-outline-primary'>Sign up</button>
+    </form>
+</div>
 
 <% include partials/footer %>
