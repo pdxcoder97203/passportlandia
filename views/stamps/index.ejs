@@ -1,19 +1,69 @@
 <% include ../partials/header %> 
 
-<h1 class="display-4 text-center">Stamps</h1>
+<h1 class="lead text-center">Stamps</h1>
+ 
+<form class='form-group text-center' action='/stamps' method='GET'>
+    <div class='container index-hood-filter'>
+        <div class='row'>
+            <select class='custom-select col-6' name='hood'>
+                <option <% if (!selectedHood) { %>
+                            selected
+                        <% } %>
+                        disabled>Neighborhood</option>
+                <option <% if (selectedHood === "N") { %>
+                            selected 
+                        <% } %>
+                        value='N'>North</option>
+                <option <% if (selectedHood === "NW") { %>
+                            selected 
+                        <% } %>
+                        value='NW'>Northwest</option>
+                <option <% if (selectedHood === "NE") { %>
+                            selected 
+                        <% } %>
+                        value='NE'>Northeast</option>
+                <option <% if (selectedHood === "SW") { %>
+                            selected 
+                        <% } %>
+                        value='SW'>Southwest</option>
+                <option <% if (selectedHood === "SE") { %>
+                            selected 
+                        <% } %>
+                        value='SE'>Southeast</option>
+            </select>
+        </div>
+        <div class='row'>
+            <select class='custom-select col-5' name='stampRequired'>
+                <option selected disabled>Required?</option>
+                <option value='true'>Yes</option>
+                <option value='false'>No</option>
+            </select>
+            <select class='custom-select col-4' name='stampsPage'>
+                <option selected disabled>Page</option>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+            </select>  
+        </div>
+    </div>
+    <button class='btn btn-outline-primary'>Apply Filter</button>
+</form>
 
-<a href='/stamps/new'>Add new stamp</a>
-<br>
+<p class="lead text-center">Click on an image for more info</p>
 
 <!-- Show thumbnail of stamp and name of stamp -->
 <% stamps.forEach((stamp) => { %>
-   <img src='<%= stamp.image %>'>
-    <h2><%= stamp.name %></h2>
-
-    <!-- Link to more information about a stamp -->
-    <a href='/stamps/<%= stamp._id %>'>More information</a>
-    <br>
+    <div class='container'>
+        <a href='/stamps/<%= stamp._id %>'>
+            <img class='img-thumbnail index-img' src='<%= stamp.image %>' alt='<%= stamp.name %>'>
+        </a>
+        <div class='caption text-center'>
+            <p><%= stamp.name %></p>
+        </div>
+    </div>
 <% }); %>
 
+<div class='text-center'>
+    <a class='btn btn-outline-primary' href='/stamps/new'>Add a new stamp</a>
+</div>
 
 <% include ../partials/footer %> 

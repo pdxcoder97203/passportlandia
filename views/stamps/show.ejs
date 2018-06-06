@@ -1,50 +1,66 @@
 <% include ../partials/header %> 
 
-<img src='<%= stamp.image %>' >
-<h4> <%= stamp.name %> </h4>
-<p> <%= stamp.neighborhood %> </p>
-<p> <%= stamp.description %> </p>
-
-<p>Submitted by <%= stamp.author.username %> </p>
-
-<% if (currentUser && stamp.author.id.equals(currentUser._id)) { %>
-    <a href='/stamps/<%= stamp._id %>/edit'>Edit</a>
+<div class='container'>
+<div class="card">
+  <h5 class="card-title text-center"><%= stamp.name %></h5>
+  <img class="card-img-top" src="<%= stamp.image %>" alt="Image of <%= stamp.name %>">
+  <div class="card-body">
     
-    <form action='/stamps/<%= stamp._id %>?_method=DELETE' method="POST">
-        <button>Delete Stamp</button>
-    </form>
-<% } %>
-
-<% if (currentUser) { %>
-<form action='/stamps/<%= stamp._id %>/comments' method="POST">
-    <input type='text' name='comment[text]' placeholder="Add a comment">
-    <button>Add Comment</button>
-</form>
-<% } %>
-
-<% if (currentUser && (currentUser.nStamps.includes(stamp._id.toString()) || currentUser.neStamps.includes(stamp._id.toString()) || currentUser.nwStamps.includes(stamp._id.toString()) || currentUser.seStamps.includes(stamp._id.toString()) || currentUser.swStamps.includes(stamp._id.toString()))) { %>
-<p>You have already completed this stamp!</p>
-<% } else if (currentUser) { %>
-<form action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
-    <input type='text' name='submission' placeholder="What is the answer?">
-    <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
-    <button>Complete Stamp</button>
-</form>
-<% } %>
-
-<% stamp.comments.forEach((comment) => { %>
-  <%= comment.author.username %>
-  <%= comment.text %>
-
-
-<% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
-<a href='/stamps/<%= stamp._id %>/comments/<%=comment._id %>/edit'>Edit Comment</a>
-<form action='/stamps/<%=stamp._id %>/comments/<%=comment._id %>?_method=DELETE' method='POST'>
-<button>Delete comment</button>                        
-</form>
-<% } %>
-
-<% }); %>
+    <p class="card-text"><%= stamp.description %></p>
+  </div>
+  <ul class="list-group list-group-flush">
+    
+    <li class="list-group-item">Neighborhood: <%= stamp.neighborhood %> <p id='stampAddress'>(<a href="http://maps.google.com/?q=<%= stamp.address %> Portland+Oregon"><%= stamp.address %></a>)</p></li>
+    <li class="list-group-item">Submitted by <%= stamp.author.username %></li>
+    <li class="list-group-item">
+        <p class='lead'>Comments:</p>
+        <% stamp.comments.forEach((comment) => { %>
+        <strong><%= comment.author.username %></strong> - <%= comment.text %><br>
+        <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+        <div class='row'>
+            <a class='btn btn-outline-secondary ml-3 mr-2' href='/stamps/<%= stamp._id %>/comments/<%=comment._id %>/edit'>Edit Comment</a>
+            <form action='/stamps/<%=stamp._id %>/comments/<%=comment._id %>?_method=DELETE' method='POST'>
+            <button class='btn btn-outline-danger'>Delete comment</button>         </form>
+        </div>  
+        <% } %>
+        <% }); %>
+        <% if (currentUser) { %>
+            <form id='addCommentForm' class='form-group' action='/stamps/<%= stamp._id %>/comments' method="POST">
+                <input class='form-control' type='text' name='comment[text]' placeholder="Add a comment">
+                <span class='input-group-btn'>
+                    <button class='btn btn-outline-secondary'>Add Comment</button>
+                </span>
+            </form>
+        <% } %>
+        <a href="mailto:passportlandia@gmail.com?Subject=Report%20Comment%20at%20Stamp%20Number%20<%=stamp._id%>" class='btn btn-outline-danger'>Report a comment</a>
+    </li>
+    <li class="list-group-item">
+    <% if (currentUser && (currentUser.nStamps.includes(stamp._id.toString()) || currentUser.neStamps.includes(stamp._id.toString()) || currentUser.nwStamps.includes(stamp._id.toString()) || currentUser.seStamps.includes(stamp._id.toString()) || currentUser.swStamps.includes(stamp._id.toString()))) { %>
+    <button class='btn btn-success' disabled>Stamp completed!</button>
+    <% } else if (currentUser) { %>
+        <p class='lead'>Clue to complete stamp:</p>
+        <p class='font-italic'><%= stamp.question %></p>
+        <form class='form-group' action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
+        <input class='form-control col-5' type='text' name='submission' placeholder="Answer">
+        <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
+        <button class='btn btn-outline-secondary'>Complete Stamp</button>
+        </form>
+        <p>Having trouble completing this stamp? Click <a href='/help'>here</a> for help.</p>
+        <% } %>
+    <% if (stamp.usersCompleted === 1) { %>
+            <p>This stamp has been completed by 1 user.</p>
+        <% } else { %>
+            <p>This stamp has been completed by <%= stamp.usersCompleted %> users.</p>
+        <% } %>  
+    </li>
+    <% if (currentUser && stamp.author.id.equals(currentUser._id)) { %>
+      <li class="list-group-item">
+            <a class='btn btn-outline-info' href='/stamps/<%= stamp._id %>/edit'>Edit Stamp</a>
+      </li>
+    <% } %>
+  </ul>    
+</div>
+</div>
 
 
 

@@ -3,26 +3,28 @@ var router = express.Router();
 var Stamp = require('../models/stamp');
 var Comment = require('../models/comment');
 
-
 // Stamps index
 router.get('/stamps', (req, res) => {
-    var hood = req.body.hood;
-    Stamp.find({approved: true, neighborhood: ()}, (err, allStamps) => {
+    var requestedPage = ((Number(req.query.stampsPage)) * 10) - 10;
+    var selectedHood = req.query.hood;
+    var stampRequired = req.query.stampRequired;
+    Stamp.find({neighborhood: (selectedHood || { $in: ['N', 'NW', 'NE', 'SE', 'SW']}), reqStamp: (stampRequired || true), approved: true}, (err, allStamps) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('stamps/index', {title: 'Stamps', stamps: allStamps}); 
+            res.render('stamps/index', {title: 'Stamps', stamps: allStamps, selectedHood: selectedHood}); 
         }
-    });
+    }).skip(0 || requestedPage).limit(10);
 });
 
 // Add new stamp route
 router.post('/stamps', loginCheck, (req, res) => {
     var name = req.body.name;
     var hood = req.body.hood;
+    var address = req.body.address;
     var image = req.body.image;
     var question = req.body.question;
-    var answer = req.body.answer;
+    var answer = (req.body.answer).toLowerCase();
     var description = req.body.description;
     var author = {
         id: req.user._id,
@@ -31,13 +33,15 @@ router.post('/stamps', loginCheck, (req, res) => {
     var newStamp = {
         name: name,
         neighborhood: hood,
+        address: address,
         image: image,
         description: description,
         question: question,
         answer: answer,
         author: author,
         reqStamp: true,
-        approved: true
+        approved: true,
+        usersCompleted: 0
     };
     Stamp.create(newStamp, (err, newlyCreated) => {
        if (err) {
@@ -92,8 +96,8 @@ router.put('/stamps/:id', verifyStampOwner, (req, res) => {
    });
 });
 
-// Destroy route
-router.delete('/stamps/:id', verifyStampOwner, (req, res) => {
+// Destroy route, however, whole route is commented out because it will be problematic for a user to add a stamp, have other users complete it, then have the user who created the stamp destroy it. If a stamp needs to be deleted, adminstrator will manually do so through MongoDB
+/*router.delete('/stamps/:id', verifyStampOwner, (req, res) => {
    Stamp.findByIdAndRemove(req.params.id, function(err) {
       if (err) {
           res.redirect('/stamps');
@@ -101,7 +105,7 @@ router.delete('/stamps/:id', verifyStampOwner, (req, res) => {
           res.redirect('/stamps');
       }
    });
-});
+});*/
 
 function verifyStampOwner(req, res, next) {
   if(req.isAuthenticated()) {

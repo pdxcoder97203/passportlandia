@@ -1,17 +1,133 @@
 <% include ../partials/header %> 
 
-<p>Hello, you are <%= currentUser.username %></p>
+<h1 class='lead text-center'><%= currentUser.username %></h1>
 
 <%if (currentUser.level === 0) {%>
-    <p>Your current level is Fanny Pack</p>
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Fanny Packer</p>
+    </div>
 <%} else if (currentUser.level === 1) {%> 
-    <p>Your current level is Fanny Pack and Chain</p>
-<%} else {%> 
-    <p>Your code is not working bro</p>
-<%}%> 
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Cool Guy</p>
+    </div>
+<%} else if (currentUser.level === 2) {%> 
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Really Cool Guy</p>
+    </div>
+<%} else if (currentUser.level === 3) {%> 
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Junior Diplomat</p>
+    </div>
+<%} else if (currentUser.level === 4) {%> 
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Diplomat</p>
+    </div>
+<%} else if (currentUser.level === 5) {%> 
+    <div class='container'>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <p>Your current level is Amassador</p>
+    </div>
+<% } %> 
 
-<% currentUser.swStamps.forEach((stamp) => { %>
-   <a href='../stamps/<%= stamp %>'><%= stamp %></a>
-<% }); %>
+<% if (currentUser.level === 1) { %> 
+    <div class='container'>
+        <p>You have completed 1 neighborhood.</p>
+    </div>
+<% } else { %> 
+    <div class='container'>
+        <p>You have completed <%= currentUser.level %> neighborhoods.</p>
+    </div>
+<% } %> 
+
+<div class='container'>
+    <form class='form-group text-center' action='/users/<%= currentUser._id %>' method='GET'>
+                <select class='custom-select col-6' name='hood'>
+                    <option <% if (!selectedHood) { %>
+                                selected
+                            <% } %>
+                            disabled>Neighborhood</option>
+                    <option <% if (selectedHood === "N") { %>
+                                selected 
+                            <% } %>
+                            value='N'>North</option>
+                    <option <% if (selectedHood === "NW") { %>
+                                selected 
+                            <% } %>
+                            value='NW'>Northwest</option>
+                    <option <% if (selectedHood === "NE") { %>
+                                selected 
+                            <% } %>
+                            value='NE'>Northeast</option>
+                    <option <% if (selectedHood === "SW") { %>
+                                selected 
+                            <% } %>
+                            value='SW'>Southwest</option>
+                    <option <% if (selectedHood === "SE") { %>
+                                selected 
+                            <% } %>
+                            value='SE'>Southeast</option>
+                </select>
+        <button class='btn btn-outline-primary'>See Stamps for Neighborhood</button>
+    </form>
+</div>
+
+<% if (selectedHood === "NW") { %>
+    <p>I heard you want to see stamps for NW</p>
+<% } else if (selectedHood === "SE") { %>
+    <p>I heard you want to see stamps for SE</p>
+<% } %>
+
+<div class='container'>
+    <div class='row'>
+
+<div class="card col-6 col-md-4">
+  <div class="card-body">
+    <h5 class="card-title text-center">Cathedral Park</h5>
+  </div>
+  <img class="card-img-bottom" src="/img/passportshowstamp.jpg" alt="Card image cap">
+</div>
+
+<div class="card col-6 col-md-4">
+  <div class="card-body">
+    <p class="lead text-center">Cathedral Park</p>
+  </div>
+  <button class='btn btn-outline-info mb-9'>Go to Stamp</button>
+</div>
+
+<div class="card col-6 col-md-4">
+  <div class="card-body">
+    c
+    <p class="card-text">This is a wider card . </p>
+  </div>
+  <img class="card-img-bottom" src="https://placeimg.com/400/400/any" alt="Card image cap">
+</div>
+
+<div class="card col-6 col-md-4">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  </div>
+  <img class="card-img-bottom" src="https://placeimg.com/400/400/any" alt="Card image cap">
+</div>
+        
+   </div> 
+</div>
 
 <% include ../partials/footer %> 

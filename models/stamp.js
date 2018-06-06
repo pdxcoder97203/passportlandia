@@ -3,9 +3,10 @@ var mongoose = require('mongoose');
 var stampSchema = new mongoose.Schema({
     name: String,
     neighborhood: String,
+    address: String,
     image: String,
     description: String,
-    commentCount: Number,
+    usersCompleted: Number,
     question: String,
     answer: String,
     reqStamp: Boolean,
