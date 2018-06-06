@@ -88,46 +88,46 @@
     </form>
 </div>
 
-<% if (selectedHood === "NW") { %>
-    <p>I heard you want to see stamps for NW</p>
-<% } else if (selectedHood === "SE") { %>
-    <p>I heard you want to see stamps for SE</p>
-<% } %>
+<% if (selectedHood === "N") { %>
 
 <div class='container'>
+    <h5 class="card-title text-center font-weight-bold">Required Stamps</h5>
     <div class='row'>
-
-<div class="card col-6 col-md-4">
-  <div class="card-body">
-    <h5 class="card-title text-center">Cathedral Park</h5>
-  </div>
-  <img class="card-img-bottom" src="/img/passportshowstamp.jpg" alt="Card image cap">
-</div>
-
-<div class="card col-6 col-md-4">
-  <div class="card-body">
-    <p class="lead text-center">Cathedral Park</p>
-  </div>
-  <button class='btn btn-outline-info mb-9'>Go to Stamp</button>
-</div>
-
-<div class="card col-6 col-md-4">
-  <div class="card-body">
-    c
-    <p class="card-text">This is a wider card . </p>
-  </div>
-  <img class="card-img-bottom" src="https://placeimg.com/400/400/any" alt="Card image cap">
-</div>
-
-<div class="card col-6 col-md-4">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-  </div>
-  <img class="card-img-bottom" src="https://placeimg.com/400/400/any" alt="Card image cap">
-</div>
-        
+        <% stamps.forEach( (stamp) => { %>
+            <% if (stamp.reqStamp === true) { %>   
+                <div class="card col-6 col-md-4">
+                  <div class="card-body">
+                    <h5 class="card-title text-center"> <%= stamp.name %> </h5>
+                  </div>
+                  <% if ((currentUser.nStamps).includes(stamp._id.toString())) { %>
+                            <img class="card-img-bottom" src="/img/passportshowstamp.jpg" alt="Card image cap">
+                   <% } else { %>
+                        <a href='/stamps/<%= stamp._id %>'>
+                            <img class="card-img-bottom" src="<%= stamp.image %>" alt="Card image cap">
+                        </a>
+                   <% } %>   
+        </div>
+              <% } %>
+        <% }) %>
    </div> 
 </div>
+
+<div class='container'>
+    <h5 class="card-title text-center font-weight-bold">Optional Stamps</h5>
+    <div class='row'>
+        <% stamps.forEach( (stamp) => { %>
+            <% if ((stamp.reqStamp === false) && (currentUser.nStamps).includes(stamp._id.toString())) { %>   
+                <div class="card col-6 col-md-4">
+                  <div class="card-body">
+                    <h5 class="card-title text-center"> <%= stamp.name %> </h5>
+                  </div>
+                  <img class="card-img-bottom" src="/img/passportshowstamp.jpg" alt="Card image cap"> 
+                </div>
+              <% } %>
+        <% }) %>
+   </div> 
+</div>
+
+<% } %>
 
 <% include ../partials/footer %> 

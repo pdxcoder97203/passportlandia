@@ -39,7 +39,7 @@ router.post('/stamps', loginCheck, (req, res) => {
         question: question,
         answer: answer,
         author: author,
-        reqStamp: true,
+        reqStamp: false,
         approved: true,
         usersCompleted: 0
     };

@@ -7,17 +7,22 @@ var _ = require('underscore');
 // Show details of a particular user
 router.get('/users/:id', verifyUser, (req, res) => {
    var selectedHood = req.query.hood;
-   User.findById(req.params.id).exec(function(err, foundUser) {
-      if (err) {
-          console.log(err);
-      } else {
-          res.render('users/show', {
-              title: foundUser.name,
-              user: foundUser,
-              selectedHood: selectedHood
-          })
-      }
-   });
+    
+    Stamp.find({neighborhood: selectedHood}, (err, selectedHoodStamps) => {
+        
+       User.findById(req.params.id).exec(function(err, foundUser) {
+          if (err) {
+              console.log(err);
+          } else {
+              res.render('users/show', {
+                  title: foundUser.name,
+                  user: foundUser,
+                  selectedHood: selectedHood,
+                  stamps: selectedHoodStamps
+              })
+          }
+       }); // end of User.find bracket
+     }); // end of Stamp.find bracket
 });
 
 // Add a completed stamp to a user's passport
