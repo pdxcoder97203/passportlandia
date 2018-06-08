@@ -12,7 +12,7 @@ router.get('/stamps', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('stamps/index', {title: 'Stamps', stamps: allStamps, selectedHood: selectedHood}); 
+            res.render('stamps/index', {title: 'Stamps', stamps: allStamps, selectedHood: selectedHood, pageIndex: req.query.stampsPage}); 
         }
     }).skip(0 || requestedPage).limit(10);
 });

@@ -16,6 +16,7 @@ router.post('/stamps/:id/comments', loginCheck, (req, res) => {
              } else {
                  comment.author.id = req.user._id;
                  comment.author.username = req.user.username;
+                 comment.author.level = req.user.level;
                  comment.save();
                  stamp.comments.push(comment);
                  stamp.save();

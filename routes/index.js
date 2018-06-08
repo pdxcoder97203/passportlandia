@@ -1,11 +1,31 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var request = require('request');
 var User = require('../models/user');
 
 // Landing page
 router.get('/', (req, res) => {
-   res.render('landing', {title: 'Passportlandia'}); 
+    request('http://api.openweathermap.org/data/2.5/weather?zip=97209&units=imperial&APPID=8bdcad200c00c00dd966b7bfcf3c472b', (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            var weatherData = JSON.parse(body);
+            var unixSunset = weatherData.sys.sunset;            
+            var sunsetDate = new Date(unixSunset*1000);
+            var sunsetHour = sunsetDate.getHours() - 12;
+            var sunsetMinutes = "0" + sunsetDate.getMinutes();
+            var sunsetTime = sunsetHour + ':' + sunsetMinutes.substr(-2) + ' PM';
+            var temp = (weatherData.main.temp).toFixed();
+            var weatherDescription = weatherData.weather[0].description;
+            res.render('landing', {title: 'Passportlandia', sunsetTime: sunsetTime, temp: temp, weatherDescription: weatherDescription}); 
+        };
+    });   
+                //res.render('landing', {title: 'Passportlandia'}); 
+
+});
+
+// About route
+router.get('/about', (req, res) => {
+    res.render('about', {title: 'About'});
 });
 
 // Show sign up form

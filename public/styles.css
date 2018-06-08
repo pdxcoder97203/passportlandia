@@ -62,6 +62,18 @@ label {
     display: block;
 }
 
+#indexPageDown {
+    margin-left: 15%;
+}
+
+#indexPageNumber {
+    text-align: center;
+}
+
+.about-card-header {
+    background: linear-gradient(to right, #88BBD6, #99D3DF, #88BBD6);
+}
+
 /* Start landing page marquee */
 .content-slider {
   width: 100%;

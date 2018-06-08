@@ -89,9 +89,22 @@
 </div>
 
 <% if (selectedHood === "N") { %>
+     <% var convertedStamp = 'nStamps'; %>
+<% } else if (selectedHood === "NW") { %>
+     <% var convertedStamp = 'nwStamps'; %>
+<% } else if (selectedHood === "NE") { %>
+     <% var convertedStamp = 'neStamps'; %>
+<% } else if (selectedHood === "SW") { %>
+     <% var convertedStamp = 'swStamps'; %>
+<% } else if (selectedHood === "SE") { %>
+     <% var convertedStamp = 'seStamps'; %>
+<% };  %>
+
+<% if (selectedHood) { %>
 
 <div class='container'>
     <h5 class="card-title text-center font-weight-bold">Required Stamps</h5>
+    <div class='container'>
     <div class='row'>
         <% stamps.forEach( (stamp) => { %>
             <% if (stamp.reqStamp === true) { %>   
@@ -99,24 +112,28 @@
                   <div class="card-body">
                     <h5 class="card-title text-center"> <%= stamp.name %> </h5>
                   </div>
-                  <% if ((currentUser.nStamps).includes(stamp._id.toString())) { %>
+                  <% if ((currentUser[convertedStamp]).includes(stamp._id.toString())) { %>
+                        <a href='/stamps/<%= stamp._id %>'>
                             <img class="card-img-bottom" src="/img/passportshowstamp.jpg" alt="Card image cap">
+                        </a>
                    <% } else { %>
                         <a href='/stamps/<%= stamp._id %>'>
-                            <img class="card-img-bottom" src="<%= stamp.image %>" alt="Card image cap">
+                            <img class="card-img-bottom pb-3" src="<%= stamp.image %>" alt="Card image cap">
                         </a>
                    <% } %>   
         </div>
               <% } %>
         <% }) %>
    </div> 
+        </div>
 </div>
 
 <div class='container'>
-    <h5 class="card-title text-center font-weight-bold">Optional Stamps</h5>
+    <h5 class="card-title text-center font-weight-bold mt-5">Optional Stamps</h5>
+    <div class='container'>
     <div class='row'>
         <% stamps.forEach( (stamp) => { %>
-            <% if ((stamp.reqStamp === false) && (currentUser.nStamps).includes(stamp._id.toString())) { %>   
+            <% if ((stamp.reqStamp === false) && (currentUser[convertedStamp]).includes(stamp._id.toString())) { %>   
                 <div class="card col-6 col-md-4">
                   <div class="card-body">
                     <h5 class="card-title text-center"> <%= stamp.name %> </h5>
@@ -126,6 +143,7 @@
               <% } %>
         <% }) %>
    </div> 
+    </div>
 </div>
 
 <% } %>
