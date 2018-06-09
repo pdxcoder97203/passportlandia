@@ -11,25 +11,45 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
         <% if (stamp.reqStamp === true) { %>
-        <p class='font-weight-bold'>Required Stamp</p>
+        <p class='font-weight-bold mb-0'>Required Stamp</p>
         <% } else { %>
-        <p class='font-weight-bold'>Optional Stamp</p>
+        <p class='font-weight-bold mb-0'>Optional Stamp</p>
         <% } %>
         <button type="button" class="btn btn-primary">
           Neighborhood <span class="badge badge-light"><%= stamp.neighborhood %></span>
         </button>
-        <p id='stampAddress'>(<a href="http://maps.google.com/?q=<%= stamp.address %> Portland+Oregon"><%= stamp.address %></a>)</p></li>
+        <p id='stampAddress'>(<a href="http://maps.google.com/?q=<%= stamp.address %> Portland+Oregon"><%= stamp.address %></a>)</p>
+    </li>
     <li class="list-group-item">Submitted by <%= stamp.author.username %></li>
+    <li class="list-group-item">
+    <% if (currentUser && (currentUser.nStamps.includes(stamp._id.toString()) || currentUser.neStamps.includes(stamp._id.toString()) || currentUser.nwStamps.includes(stamp._id.toString()) || currentUser.seStamps.includes(stamp._id.toString()) || currentUser.swStamps.includes(stamp._id.toString()))) { %>
+    <button class='btn btn-success' disabled>Stamp completed!</button>
+    <% } else if (currentUser) { %>
+        <p class='lead'>Clue to complete stamp:</p>
+        <p class='font-italic'><%= stamp.question %></p>
+        <form class='form-group' action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
+        <input class='form-control col-5' type='text' name='submission' placeholder="Answer">
+        <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
+        <button class='btn btn-outline-secondary'>Complete Stamp</button>
+        </form>
+        <p>Having trouble completing this stamp? Click <a href='/help'>here</a> for help.</p>
+        <% } %>
+    <% if (stamp.usersCompleted === 1) { %>
+            <p class='mb-0'>This stamp has been completed by 1 user.</p>
+        <% } else { %>
+            <p class='mb-0'>This stamp has been completed by <%= stamp.usersCompleted %> users.</p>
+        <% } %>  
+    </li>
     <li class="list-group-item">
         <p class='lead'>Comments:</p>
         <% stamp.comments.forEach((comment) => { %>
             <strong><%= comment.author.username %></strong>
             <% if (comment.author.level === 0) { %>
-                <span class='font-italic'>(Fanny Pack)</span>
+                <span class='font-italic'>(Tourist)</span>
             <% } else if (comment.author.level === 1) { %>
-                <span class='font-italic'>(Cool Guy)</span>
+                <span class='font-italic'>(Hipster Apprentice)</span>
             <% } else if (comment.author.level === 2) { %>
-                <span class='font-italic'>(Really Cool Guy)</span>
+                <span class='font-italic'>(Hipster)</span>
             <% } else if (comment.author.level === 3) { %>
                 <span class='font-italic'>(Junior Diplomat)</span>
             <% } else if (comment.author.level === 4) { %>
@@ -49,33 +69,19 @@
         <% }); %>
         <% if (currentUser) { %>
             <form id='addCommentForm' class='form-group' action='/stamps/<%= stamp._id %>/comments' method="POST">
-                <input class='form-control' type='text' name='comment[text]' placeholder="Add a comment">
+                <input class='form-control' type='text' name='comment[text]' placeholder="Type comment">
                 <span class='input-group-btn'>
                     <button class='btn btn-outline-secondary'>Add Comment</button>
                 </span>
             </form>
         <% } %>
-        <a href="mailto:passportlandia@gmail.com?Subject=Report%20Comment%20at%20Stamp%20Number%20<%=stamp._id%>" class='btn btn-outline-danger'>Report a comment</a>
-    </li>
-    <li class="list-group-item">
-    <% if (currentUser && (currentUser.nStamps.includes(stamp._id.toString()) || currentUser.neStamps.includes(stamp._id.toString()) || currentUser.nwStamps.includes(stamp._id.toString()) || currentUser.seStamps.includes(stamp._id.toString()) || currentUser.swStamps.includes(stamp._id.toString()))) { %>
-    <button class='btn btn-success' disabled>Stamp completed!</button>
-    <% } else if (currentUser) { %>
-        <p class='lead'>Clue to complete stamp:</p>
-        <p class='font-italic'><%= stamp.question %></p>
-        <form class='form-group' action='/users/<%= currentUser._id %>/<%= stamp._id %>' method="POST">
-        <input class='form-control col-5' type='text' name='submission' placeholder="Answer">
-        <input type='hidden' name='neighborhood' value='<%= stamp.neighborhood %>'>
-        <button class='btn btn-outline-secondary'>Complete Stamp</button>
-        </form>
-        <p>Having trouble completing this stamp? Click <a href='/help'>here</a> for help.</p>
-        <% } %>
-    <% if (stamp.usersCompleted === 1) { %>
-            <p>This stamp has been completed by 1 user.</p>
+        <% if (stamp.comments.length === 0) { %>
+        <p>Be the first to comment!</p>
         <% } else { %>
-            <p>This stamp has been completed by <%= stamp.usersCompleted %> users.</p>
-        <% } %>  
+        <a href="mailto:passportlandia@gmail.com?Subject=Report%20Comment%20at%20Stamp%20Number%20<%=stamp._id%>" class='btn btn-outline-danger'>Report a comment</a>
+        <% } %>
     </li>
+    
     <% if (currentUser && stamp.author.id.equals(currentUser._id)) { %>
       <li class="list-group-item">
             <a class='btn btn-outline-info' href='/stamps/<%= stamp._id %>/edit'>Edit Stamp</a>

@@ -74,4 +74,14 @@ router.get('/logout', (req, res) => {
     res.redirect('/stamps');
 });
 
+// Troubleshooting route
+router.get('/troubleshooting', (req, res) => {
+    res.render('troubleshooting', {title: 'Troubleshooting'});
+});
+
+// Terms route
+router.get('/terms', (req, res) => {
+    res.render('terms', {title: 'Terms'});
+});
+
 module.exports = router;

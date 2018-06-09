@@ -8,11 +8,14 @@ var mongoose       = require('mongoose');
 var passport       = require('passport');
 var methodOverride = require('method-override');
 var LocalStrategy  = require('passport-local');
+var path           = require('path');
+var favicon        = require('serve-favicon');
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 
 //Models / MongoDB
 //===================
