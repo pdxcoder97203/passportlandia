@@ -1,6 +1,8 @@
 ToDos
 
-- make a favicon
+- properly indent and comment all code
+- write logic for increasing a user's level
+
 
 Neighborhoods
 

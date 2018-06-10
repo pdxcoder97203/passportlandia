@@ -33,18 +33,23 @@ router.post('/users/:id/:stamp_id', verifyUser, (req, res) => {
         switch (neighborhood) {
                 case 'N':
                     neighborhood = 'nStamps';
+                    done = 'nStampsDone';
                     break;
                 case 'NW': 
                     neighborhood = 'nwStamps';
+                    done = 'nwStampsDone';
                     break;
                 case 'NE':
                     neighborhood = 'neStamps';
+                    done = 'neStampsDone';
                     break;
                 case 'SW':
                     neighborhood = 'swStamps';
+                    done = 'swStampsDone';
                     break;
                 case 'SE': 
                     neighborhood = 'seStamps';
+                    done = 'seStampsDone';
                     break;
                 default:
                     console.log('I do not recognize that neighborhood');
@@ -62,15 +67,26 @@ router.post('/users/:id/:stamp_id', verifyUser, (req, res) => {
             user.save();
             stamp.usersCompleted++;
             stamp.save();
-            
-            // Check to see if level should be adjusted
-            if (_.contains(user.neStamps, '5b10611308102d2584ff313b') && !user.neStampsDone && (user.neStamps.length >= 2)) {
-                user.level++;
-                user.neStampsDone = true;
+                
+            const requiredStamps = {
+              nStamps: [],
+              nwStamps: [], 
+              neStamps: [],
+              swStamps: [],
+              seStamps: []
             };
+            
+            var requiredStampsDone = _.intersection(requiredStamps[neighborhood], user[neighborhood]);
+                
+            // Check if user level should be increased
+            if ((requiredStampsDone.length === 9) && !user[done] && (user[neighborhood].length >= 12)) {
+                user.level++;
+                user[done] = true;
+            };
+                
             res.redirect('/users/' + user._id);
              } else {
-                 res.send('wrong answer');
+                 res.render('wronganswer', {title: 'Wrong Answer'});
                  }
             });
         

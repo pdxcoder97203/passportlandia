@@ -5,7 +5,7 @@ var Comment = require('../models/comment');
 
 // Stamps index
 router.get('/stamps', (req, res) => {
-    var requestedPage = ((Number(req.query.stampsPage)) * 10) - 10;
+    var requestedPage = ((Number(req.query.stampsPage)) * 12) - 12;
     var selectedHood = req.query.hood;
     var stampRequired = req.query.stampRequired;
     Stamp.find({neighborhood: (selectedHood || { $in: ['N', 'NW', 'NE', 'SE', 'SW']}), reqStamp: (stampRequired || true), approved: true}, (err, allStamps) => {
@@ -14,7 +14,7 @@ router.get('/stamps', (req, res) => {
         } else {
             res.render('stamps/index', {title: 'Stamps', stamps: allStamps, selectedHood: selectedHood, pageIndex: req.query.stampsPage}); 
         }
-    }).skip(0 || requestedPage).limit(10);
+    }).skip(0 || requestedPage).limit(12);
 });
 
 // Add new stamp route

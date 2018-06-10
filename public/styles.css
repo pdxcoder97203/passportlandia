@@ -23,20 +23,12 @@ label {
     margin-top: 3px;
 }
 
-.index-hood-filter {
-    margin-left: 10%;
-}
-
 .index-hood-filter select {
     margin: 5px 2.5px;
 }
 
 .index-img {
     width: 100%;
-}
-
-.show-image {
-    border: 1px solid grey;
 }
 
 .card-title {
@@ -60,10 +52,6 @@ label {
 #showStamp {
     height: 200px;
     display: block;
-}
-
-#indexPageDown {
-    margin-left: 15%;
 }
 
 #indexPageNumber {
